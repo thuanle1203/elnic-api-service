@@ -14,6 +14,7 @@ const swaggerUI = require("swagger-ui-express");
 
 const swaggerJsDoc = require("swagger-jsdoc");
 
+const db = require("./app/models");
 
 // Add headers
 app.use(cors());
@@ -25,7 +26,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Connect DB
-const db = require("./app/models");
 
 db.mongoose
   .connect(`mongodb+srv://user-test:12032000@cluster0.vxbdt.mongodb.net/api_service?retryWrites=true&w=majority`, {
@@ -76,7 +76,7 @@ require("./app/routes/hero.routes")(app);
 require("./app/routes/categories.routes")(app);
 
 // set port, listen for requests
-const PORT = process.env.PORT || 8080;
+const PORT = 8080;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
 });
