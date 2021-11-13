@@ -77,10 +77,6 @@ require("./app/routes/categories.routes")(app);
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;
-
-express()
-  .listen(PORT, () => console.log(`Listening on ${ PORT }`))
-
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
 });

@@ -1,5 +1,3 @@
-const { subCategories } = require(".");
-
 module.exports = (mongoose) => {
   var schema = mongoose.Schema(
     {
