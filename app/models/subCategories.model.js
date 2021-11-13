@@ -11,10 +11,8 @@ module.exports = (mongoose) => {
         required: true,
         max: [127, "Max Length is 127 characters"],
       },
-      subCategoryIcon: {
-        type: String,
-        required: true,
-      }
+      subCategoryIcon: String,
+      categoryId: String,
     },
     { timestamps: true }
   );
