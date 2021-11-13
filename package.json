@@ -11,11 +11,19 @@
   "license": "ISC",
   "dependencies": {
     "axios": "^0.21.4",
+    "cloudinary": "^1.27.1",
     "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.0.7",
-    "request": "^2.88.2"
+    "multer": "^1.4.3",
+    "request": "^2.88.2",
+    "swagger-jsdoc": "^6.1.0",
+    "swagger-ui-express": "^4.1.6",
+    "lowdb": "^1.0.0",
+    "morgan": "^1.10.0",
+    "nanoid": "^3.1.20"
   },
   "devDependencies": {
     "nodemon": "^2.0.14"

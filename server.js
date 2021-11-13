@@ -4,36 +4,19 @@ const cors = require("cors");
 
 const app = express();
 
-var corsOptions = {
-  origin: "http://localhost:4200",
-};
+const dotenv = require("dotenv");
+
+const morgan = require("morgan");
+
+const low = require("lowdb");
+
+const swaggerUI = require("swagger-ui-express");
+
+const swaggerJsDoc = require("swagger-jsdoc");
+
 
 // Add headers
-app.use(function (req, res, next) {
-  // Website you wish to allow to connect
-  res.setHeader("Access-Control-Allow-Origin", "http://localhost:8888");
-
-  // Request methods you wish to allow
-  res.setHeader(
-    "Access-Control-Allow-Methods",
-    "GET, POST, OPTIONS, PUT, PATCH, DELETE"
-  );
-
-  // Request headers you wish to allow
-  res.setHeader(
-    "Access-Control-Allow-Headers",
-    "X-Requested-With,content-type"
-  );
-
-  // Set to true if you need the website to include cookies in the requests sent
-  // to the API (e.g. in case you use sessions)
-  res.setHeader("Access-Control-Allow-Credentials", true);
-
-  // Pass to next layer of middleware
-  next();
-});
-
-app.use(cors(corsOptions));
+app.use(cors());
 
 // parse requests of content-type - application/json
 app.use(express.json());
@@ -43,26 +26,54 @@ app.use(express.urlencoded({ extended: true }));
 
 // Connect DB
 const db = require("./app/models");
+
 db.mongoose
-  .connect(db.url, {
+  .connect(`mongodb+srv://user-test:12032000@cluster0.vxbdt.mongodb.net/api_service?retryWrites=true&w=majority`, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
   .then(() => {
-    console.log("Connected to the database!");
+    console.log("Successfully connect to MongoDB.");
   })
   .catch((err) => {
-    console.log("Cannot connect to the database!", err);
+    console.error("Connection error", err);
     process.exit();
   });
 
-// simple route
+// Swagger
+
+const options = {
+	definition: {
+		openapi: "3.0.0",
+		info: {
+			title: "Library API",
+			version: "1.0.0",
+			description: "A simple Express Library API",
+		},
+		servers: [
+			{
+				url: "http://localhost:8080",
+			},
+		],
+	},
+	apis: ["./app/routes/*.routes.js"],
+};
+
+const specs = swaggerJsDoc(options);
+
+app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(specs));
+
+app.use(morgan("dev"));
+
+// Simple route
+
 app.get("/", (req, res) => {
   res.json({ message: "Welcome to Edward application." });
 });
 
 require("./app/routes/tutorial.routes")(app);
 require("./app/routes/hero.routes")(app);
+require("./app/routes/categories.routes")(app);
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;
