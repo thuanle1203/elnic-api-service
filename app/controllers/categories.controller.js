@@ -49,24 +49,51 @@ exports.setCategories = (req, res) => {
 };
 
 exports.deleteCategories = (req, res) => {
+  if (!req.params.id) {
+    return res.status(204).send({
+      message: "Id to delete can not be empty!",
+    });
+  }
 
+  try {
+    Category.deleteOne( { _id : req.params.id } ).then(() => {
+      res.status(200).send({
+        message: "Delete successfuly.",
+      });
+    });
+ } catch (e) {
+  res.status(500).send({
+    message: e.message || "Some error occurred while retrieving id.",
+  });
+ }
 };
 
 exports.editCategories = (req, res) => {
-  User.findOneAndUpdate({ username: req.body.username }, req.body, {
+
+  const categoryName = req.body.categoryName;
+  const categorySlug = categoryName.toLowerCase().replace(" ", "-");
+
+  const categories = {
+    categoryName: categoryName,
+    categorySlug: categorySlug,
+    categoryIcon: req.body.categoryIcon,
+  };
+
+
+  Category.findOneAndUpdate({ _id: req.params.id }, categories, {
     useFindAndModify: false,
   })
     .then((data) => {
       if (!data) {
         res.status(404).send({
-          message: `Cannot update User with id=${id}. Maybe User was not found!`,
+          message: `Cannot update Category with id=${id}. Maybe Category was not found!`,
         });
       } else
-        res.status(200).send({ message: "User was updated successfully." });
+        res.status(200).send({ message: "Category was updated successfully." });
     })
     .catch((err) => {
       res.status(500).send({
-        message: "Error updating User with id=" + id,
+        message: "Error updating Category with id=" + id,
       });
     });
 };
