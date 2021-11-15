@@ -73,12 +73,136 @@ exports.setProduct = async (req, res) => {
 };
 
 exports.deleteProduct = (req, res) => {
+  if (!req.params.id) {
+    return res.status(204).send({
+      message: "Id to delete can not be empty!",
+    });
+  }
 
+  try {
+    Product.deleteOne( { _id : req.params.id } ).then(() => {
+      res.status(200).send({
+        message: "Delete successfuly.",
+      });
+    });
+ } catch (e) {
+  res.status(500).send({
+    message: e.message || "Some error occurred while retrieving id.",
+  });
+ }
 };
 
 exports.editProduct = (req, res) => {
+  if (!req.body) {
+    return res.status(204).send({
+      message: "Data to update can not be empty!",
+    });
+  }
 
+  const id = req.body._id;
+
+  const productSlug = req.body.productName.toLowerCase().replace(" ", "-");
+  
+  const product = {
+    productName: req.body.productName,
+    productSlug: productSlug,
+    productQty: req.body.productQty,
+    productColor: req.body.productColor,
+    productTag: req.body.productTag,
+    discountPrice: req.body.discountPrice,
+    sellingPrice: req.body.sellingPrice,
+    shortDescp: req.body.shortDescp,
+    longDescp: req.body.longDescp,
+    hotDeal: req.body.hotDeal ? req.body.hotDeal : false,
+    featured: req.body.featured ? req.body.featured : false,
+    status: req.body.status ? req.body.status : false,
+    categoriesId: req.body.categoriesId,
+    subCategoriesId: req.body.subCategoriesId,
+    subSubCategoriesId: req.body.subSubCategoriesId,
+  };
+
+  Product.updateOne(
+    { _id: id },
+    { $set: product }
+  )
+    .then((data) => {
+      if (!data) {
+        res.status(404).send({
+          message: `Cannot update Product with id=${id}. Maybe Tutorial was not found!`,
+        });
+      } else
+        res.status(200).send({ message: "Product was updated successfully." });
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: "Error updating Product with id=" + id,
+      });
+    });
 };
+
+exports.getProductById = (req, res) => {
+  const id = req.params.id;
+  Product.find({ _id: id })
+    .then((data) => {
+      res.status(200).send(data);
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: err.message || "Some error occurred while retrieving categoriesId.",
+      });
+    });
+};
+
+exports.getProductByCategory = (req, res) => {
+  const categoriesId = req.params.categoriesId;
+  Product.find({ categoriesId: categoriesId })
+    .then((data) => {
+      res.status(200).send(data);
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: err.message || "Some error occurred while retrieving categoriesId.",
+      });
+    });
+};
+
+exports.getHotProduct = (req, res) => {
+  Product.find({ hotDeal: { $eq: true } })
+    .then((data) => {
+      res.status(200).send(data);
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: err.message || "Some error occurred while retrieving categoriesId.",
+      });
+    });
+};
+
+exports.searchProductByName = (req, res) => {
+  const productNameRegex = new RegExp(req.params.productName, 'i');
+  Product.find({ productName: productNameRegex })
+    .then((data) => {
+      res.status(200).send(data);
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: err.message || "Some error occurred while retrieving categoriesId.",
+      });
+    });
+};
+
+exports.search = (req, res) => {
+  Product.find({ hotDeal: { $eq: true } })
+    .then((data) => {
+      res.status(200).send(data);
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: err.message || "Some error occurred while retrieving categoriesId.",
+      });
+    });
+};
+
 
 function makeid(length) {
   var result           = '';
@@ -89,4 +213,12 @@ function makeid(length) {
 charactersLength));
  }
  return result;
+}
+
+// Iterate through each element in the
+// first array and if some of them
+// include the elements in the second
+// array then return true.
+function findCommonElements(arr1, arr2) {
+  return arr1.some(item => arr2.includes(item))
 }

@@ -12,6 +12,10 @@ module.exports = (app) => {
 
   router.post("/categories", categories.setCategories);
 
+  router.put("/categories/:id", categories.editCategories);
+
+  router.delete("/categories/:id", categories.deleteCategories);
+
   // Sub Category area
 
   router.get("/subCategories", categories.getSubCategories);
