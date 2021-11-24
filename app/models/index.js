@@ -12,7 +12,8 @@ db.categories = require("./categories.model.js")(mongoose);
 db.subCategories = require("./subCategories.model.js")(mongoose);
 db.subSubCategories = require("./subSubCategories.model.js")(mongoose);
 db.products = require("./products.model.js")(mongoose);
-
-
+db.coupons = require("./coupons.model.js")(mongoose);
+db.reviews = require("./reviews.model.js")(mongoose);
+db.orders = require("./orders.model.js")(mongoose);
 
 module.exports = db;
