@@ -1,15 +1,15 @@
 module.exports = (app) => {
-  const reviews = require("../controllers/reviews.controler");
+  const coupons = require("../controllers/coupons.controller");
 
   var router = require("express").Router();
 
-  app.use("/api/review", router);
+  app.use("/api/coupon", router);
 
   // Create a new Tutorial
-  router.post("/", reviews.create);
+  router.post("/", coupons.createCoupon);
 
   // Retrieve all Tutorials
-  router.get("/", reviews.findAll);
+  router.get("/", coupons.findAll);
 
   // Retrieve all published Tutorials
   // router.get("/published", coupons.findAllPublished);
@@ -18,10 +18,10 @@ module.exports = (app) => {
   // router.get("/:id", coupons.findOne);
 
   // Update a Tutorial with id
-  router.put("/:id", reviews.update);
+  router.put("/:id", coupons.update);
 
   // Delete a Tutorial with id
-  router.delete("/:id", reviews.delete);
+  router.delete("/:id", coupons.delete);
 
   // Create a new Tutorial
   // router.delete("/", coupons.deleteAll);
