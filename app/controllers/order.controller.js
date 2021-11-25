@@ -27,7 +27,8 @@ exports.create = async (req, res) => {
     try {
       mess = await axios.post(reqQuerry, {
         email: req.body.email,
-        phone: req.body.phone
+        phone: req.body.phone,
+        fullName: req.body.fullName
       }).catch((error) => {
         throw error;
       });
@@ -71,6 +72,7 @@ exports.create = async (req, res) => {
     userId: req.body.userId || user._id,
     email: req.body.email || user.email,
     phone: req.body.phone || user.phone,
+    fullName: req.body.fullName || user.fullName,
     productList: productList,
     note: req.body.note,
     postCode: req.body.postCode,

@@ -16,6 +16,7 @@ module.exports = (mongoose) => {
         max: [127, "Max Length is 127 characters"],
       },
       productList: [],
+      fullName: String,
       note: String,
       postCode: String,
       paymentType: String,
