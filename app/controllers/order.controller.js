@@ -140,13 +140,29 @@ exports.findOne = (req, res) => {
   Orders.findById(id)
     .then((data) => {
       if (!data)
-        res.status(404).send({ message: "Not found Tutorial with id " + id });
+        res.status(404).send({ message: "Not found Order with id " + id });
       else res.send(data);
     })
     .catch((err) => {
       res
         .status(500)
-        .send({ message: "Error retrieving Tutorial with id=" + id });
+        .send({ message: "Error retrieving Order with id=" + id });
+    });
+};
+
+exports.findOneByUserId = (req, res) => {
+  const userId = req.params.id;
+
+  Orders.find({ userId: userId })
+    .then((data) => {
+      if (!data)
+        res.status(404).send({ message: "Not found Order with id " + id });
+      else res.send(data);
+    })
+    .catch((err) => {
+      res
+        .status(500)
+        .send({ message: "Error retrieving Order with id=" + id });
     });
 };
 
@@ -197,6 +213,8 @@ exports.delete = (req, res) => {
       });
     });
 };
+
+
 
 // Delete all Tutorials from the database.
 // exports.deleteAll = (req, res) => {
