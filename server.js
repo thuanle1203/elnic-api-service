@@ -24,7 +24,6 @@ app.all('/', function(req, res, next) {
 
 app.use(bodyParser.json());
 
-
 // Add headers
 app.use(cors());
 
