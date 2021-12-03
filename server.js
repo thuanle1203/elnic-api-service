@@ -10,6 +10,8 @@ const morgan = require("morgan");
 
 const low = require("lowdb");
 
+const bodyParser = require("body-parser");
+
 const swaggerUI = require("swagger-ui-express");
 
 const swaggerJsDoc = require("swagger-jsdoc");
