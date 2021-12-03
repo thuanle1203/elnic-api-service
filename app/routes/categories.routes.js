@@ -10,6 +10,8 @@ module.exports = (app) => {
 
   router.get("/categories", categories.getCategories);
 
+  router.get("/categories/:id", categories.findOne);
+
   router.post("/categories", categories.setCategories);
 
   router.put("/categories/:id", categories.editCategories);

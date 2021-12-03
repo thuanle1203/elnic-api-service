@@ -98,6 +98,24 @@ exports.editCategories = (req, res) => {
     });
 };
 
+
+exports.findOne = (req, res) => {
+
+  Category.findOne({ _id: req.params.id })
+    .then((data) => {
+      if (!data) {
+        res.status(404).send({
+          message: `Cannot find Category with id=${id}!`,
+        });
+      } else
+        res.status(200).send(data);
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: "Error get Category with id=" + id,
+      });
+    });
+};
 // Sub Categories area
 
 exports.getSubCategories = (req, res) => {
