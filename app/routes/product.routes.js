@@ -1,25 +1,27 @@
 const controller = require("../controllers/product.controller");
 const upload = require("../utils/multer");
-var router = require("express").Router();
 
 module.exports = function (app) {
 
-  app.get("/", controller.getProduct);
+  var router = require("express").Router();
 
-  app.get("/:id", controller.getProductById);
+  app.use("/api/product", router);
 
-  app.get("/hotProduct", controller.getHotProduct);
+  router.get("/", controller.getProduct);
 
-  app.get("/:productName", controller.searchProductByName);
+  router.get("/:id", controller.getProductById);
 
-  app.get("/:categoriesId", controller.getProductByCategory);
+  router.get("/hotProduct", controller.getHotProduct);
+
+  router.get("/:productName", controller.searchProductByName);
+
+  router.get("/:categoriesId", controller.getProductByCategory);
 
   const cpUpload = upload.fields([{ name: 'productThambnail', maxCount: 1 }, { name: 'productImgs', maxCount: 5 }])
-  app.post("/", cpUpload, controller.setProduct);
+  router.post("/", cpUpload, controller.setProduct);
 
-  app.put("/", controller.editProduct);
+  router.put("/", controller.editProduct);
 
-  app.delete("/:id", controller.deleteProduct);
+  router.delete("/:id", controller.deleteProduct);
   
-  app.use("/api/product", router);
 };
