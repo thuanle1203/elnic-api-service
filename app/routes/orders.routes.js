@@ -1,3 +1,5 @@
+const { authJwt } = require("../middlewares");
+
 module.exports = (app) => {
   const orders = require("../controllers/order.controller");
 
@@ -8,6 +10,8 @@ module.exports = (app) => {
 
   // Retrieve all Tutorials
   router.get("/", orders.findAll);
+  
+  router.get('/payment', orders.payment);
 
   // Retrieve all published Tutorials
   // router.get("/published", orders.findAllPublished);

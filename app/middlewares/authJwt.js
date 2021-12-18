@@ -10,7 +10,7 @@ verifyToken = (req, res, next) => {
   }
 
   jwt.verify(token, config.secret, (err, decoded) => {
-    if (err) {
+    if (err || !decoded.roles.includes('ROLE_ADMIN')) {
       return res.status(401).send({ message: "Unauthorized!" });
     }
     req.userId = decoded.id;
@@ -19,6 +19,7 @@ verifyToken = (req, res, next) => {
 };
 
 const authJwt = {
-  verifyToken,
+  verifyToken
 };
+
 module.exports = authJwt;

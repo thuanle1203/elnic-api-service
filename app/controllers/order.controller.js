@@ -3,6 +3,13 @@ const Orders = db.orders;
 const Product = db.products;
 const axios = require("axios");
 const { products } = require("../models");
+const paypal = require('paypal-rest-sdk');
+
+paypal.configure({
+  'mode': 'sandbox', //sandbox or live
+  'client_id': 'AVD761Ro8BKvoaTDaEQYMqErjBavQAMKMue9ILdHjkUYSc0Yeq59qNgyjJtWkiO8alKi92hBx2ECWqIx',
+  'client_secret': 'ELtJ-evkDGql3H8UGJIN1zR881uw-BCnEggmGfUjj9j9RrB0z1mzqR_29pcx3AlsKk8nDQnKeRwPBo_C'
+});
 
 // Create and Save a new Tutorial
 exports.create = async (req, res) => {
@@ -106,18 +113,11 @@ exports.create = async (req, res) => {
 };
 
 // Retrieve all Tutorials from the database.
-exports.findAll = async (req, res) => {
+exports.findAll = (req, res) => {
   try {
-    let mess = await axios
-      .get(process.env.AUTH_SERVICE + "/api/user/getByIdOrUsername?username=admin")
-      .catch((error) => {
-        throw error;
-      });
-    mess = mess.data;
-    
     Orders.find()
     .then((data) => {
-      res.send({ ...data, ...mess });
+      res.send({ data });
     })
     .catch((err) => {
       res.status(500).send({
@@ -213,6 +213,52 @@ exports.delete = (req, res) => {
       });
     });
 };
+
+exports.payment = (req, res) => {
+  const query = req.query
+  const create_payment_json = {
+    intent: 'sale',
+    payer: {
+      payment_method: 'paypal',
+    },
+    redirect_urls: {
+      return_url: 'http://localhost:8080/api/orders',
+      cancel_url: 'http://localhost:8080/api/orders',
+    },
+    transactions: [
+      {
+        item_list: {
+          items: [
+            {
+              name: 'Red Sox Hat',
+              sku: '001',
+              price: '35.00',
+              currency: 'USD',
+              quantity: 1,
+            },
+          ],
+        },
+        amount: {
+          currency: 'USD',
+          total: '35.00',
+        },
+        description: 'Hat for the best team ever',
+      },
+    ],
+  };
+
+  paypal.payment.create(create_payment_json, function (error, payment) {
+    if (error) {
+      throw error;
+    } else {
+      for (let i = 0; i < payment.links.length; i++) {
+        if (payment.links[i].rel === 'approval_url') {
+          res.redirect(payment.links[i].href);
+        }
+      }
+    }
+  });
+}
 
 
 
