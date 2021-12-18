@@ -14,7 +14,10 @@ exports.create = (req, res) => {
     productId: req.body.productId,
     sumarry: req.body.sumarry,
     rating: Number(req.body.rating),
-    status: req.body.status | true
+    status: req.body.status | true,
+    userName: req.body.userName,
+    userAvatar: req.body.userAvatar,
+    bought: true
   });
 
   // Save Tutorial in the database
@@ -131,7 +134,7 @@ exports.findOne = (req, res) => {
 
 exports.findOneByProductId = (req, res) => {
 
-  Reviews.findOne({ productId: req.params.productId })
+  Reviews.find({ productId: req.params.productId })
     .then((data) => {
       if (!data) {
         res.status(404).send({
