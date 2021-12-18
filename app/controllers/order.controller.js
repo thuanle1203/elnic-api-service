@@ -222,8 +222,8 @@ exports.payment = (req, res) => {
       payment_method: 'paypal',
     },
     redirect_urls: {
-      return_url: 'http://localhost:8080/api/orders',
-      cancel_url: 'http://localhost:8080/api/orders',
+      return_url: query.redirect,
+      cancel_url: query.redirect,
     },
     transactions: [
       {
@@ -232,7 +232,7 @@ exports.payment = (req, res) => {
             {
               name: 'Red Sox Hat',
               sku: '001',
-              price: '35.00',
+              price: query.amount,
               currency: 'USD',
               quantity: 1,
             },
@@ -240,7 +240,7 @@ exports.payment = (req, res) => {
         },
         amount: {
           currency: 'USD',
-          total: '35.00',
+          total: query.amount,
         },
         description: 'Hat for the best team ever',
       },

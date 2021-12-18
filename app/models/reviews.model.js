@@ -8,6 +8,7 @@ module.exports = (mongoose) => {
       sumarry: String,
       rating: Number,
       status: Boolean,
+      productId: String
     },
     { timestamps: true }
   );

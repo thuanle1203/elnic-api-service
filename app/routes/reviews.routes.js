@@ -1,5 +1,5 @@
 module.exports = (app) => {
-  const reviews = require("../controllers/reviews.controler");
+  const reviews = require("../controllers/reviews.controller");
 
   var router = require("express").Router();
 
@@ -10,6 +10,10 @@ module.exports = (app) => {
 
   // Retrieve all Tutorials
   router.get("/", reviews.findAll);
+
+  router.get("/findByProductId/:productId", reviews.findOneByProductId);
+
+  router.get("/:id", reviews.findOne);
 
   // Retrieve all published Tutorials
   // router.get("/published", coupons.findAllPublished);

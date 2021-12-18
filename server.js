@@ -89,7 +89,7 @@ require("./app/routes/product.routes")(app);
 require("./app/routes/coupons.routes")(app);
 require("./app/routes/orders.routes")(app);
 require("./app/routes/sliders.routes")(app);
-// require("./app/routes/reviews.routes")(app);
+require("./app/routes/reviews.routes")(app);
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;
