@@ -15,7 +15,7 @@ exports.create = (req, res) => {
     sumarry: req.body.sumarry,
     rating: Number(req.body.rating),
     status: req.body.status | true,
-    userName: req.body.userName,
+    username: req.body.username,
     userAvatar: req.body.userAvatar,
     bought: true
   });

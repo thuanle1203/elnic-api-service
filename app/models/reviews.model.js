@@ -9,7 +9,7 @@ module.exports = (mongoose) => {
       rating: Number,
       status: Boolean,
       productId: String,
-      userName: String,
+      username: String,
       userAvatar: String,
       bought: Boolean
     },
