@@ -115,7 +115,7 @@ exports.create = async (req, res) => {
 // Retrieve all Tutorials from the database.
 exports.findAll = (req, res) => {
   try {
-    Orders.find()
+    Orders.find().sort({"createdAt": -1})
     .then((data) => {
       res.send({ data });
     })
