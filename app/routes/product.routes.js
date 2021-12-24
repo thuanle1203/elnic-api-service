@@ -16,7 +16,7 @@ module.exports = function (app) {
   const cpUpload = upload.fields([{ name: 'productThambnail', maxCount: 1 }, { name: 'productImgs', maxCount: 5 }])
   app.post("/api/product", cpUpload, controller.setProduct);
 
-  app.put("/api/product", controller.editProduct);
+  app.post("/api/product/update", controller.editProduct);
 
   app.delete("/api/product/:id", controller.deleteProduct);
 };
